@@ -14,8 +14,12 @@ class Image(models.Model):
 	image = models.ImageField(upload_to = 'images/')
 	image_name = models.CharField(max_length = 60)
 	image_caption = models.CharField(max_length = 60)
-	proile = models.ForeignKey(Profile)
+	proile = models.ForeignKey(User)
 
 	def __str__(self):
 		return self.image_name
-		
+
+class Comment(models.Model):
+	comment = models.TextField()
+	image = models.ForeignKey(Image)
+	profile = 
