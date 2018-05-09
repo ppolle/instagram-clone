@@ -8,7 +8,7 @@ class Profile(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 
 	def __str__(self):
-		return self.name
+		return self.user
 
 class Image(models.Model):
 	image = models.ImageField(upload_to = 'images/')
@@ -22,4 +22,7 @@ class Image(models.Model):
 class Comment(models.Model):
 	comment = models.TextField()
 	image = models.ForeignKey(Image)
-	profile = 
+	profile = models.ForeignKey(User)
+
+	def __str__(self):
+		return self.profile
