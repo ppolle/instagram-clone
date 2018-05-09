@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from .forms import NewImagePost
+from .models import Image
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -17,7 +18,8 @@ def profile(request):
 			post.profile = current_user
 			post.save()
 	else:
+		images = Image.objects.filter(profile = current_user)
 		form = NewImagePost()
-	return render(request,'accounts/profile.html',{"form":form})
+	return render(request,'accounts/profile.html',{"form":form,"images":images})
 
 

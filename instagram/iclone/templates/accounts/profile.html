@@ -36,5 +36,30 @@
 	<div class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal">Post Image</div>
 	<div class="btn btn-sm btn-primary"> Update Profile</div>
 </div>
+<h3 class="text-center">Your Images</h3>
+<div class="row">
+	{% for image in images%}
+	<div class="col-md-3">				
+				
+			     <div class="hovereffect thumbnail">
+			        <img class="img-responsive" src="{{image.image.url}}" alt="">
+			        
+			        
+			        <div class="overlay">
+			           <h2>{{ image.image_name }}</h2>
+			          
+			          
+			          
+			        </div>
+			    </div>
+
+			    
+
+			</div>
+	{%endfor%}
+	
+</div>
+
+
 
 {%endblock%}
