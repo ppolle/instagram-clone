@@ -9,3 +9,13 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class Image(models.Model):
+	image = models.ImageField(upload_to = 'images/')
+	image_name = models.CharField(max_length = 60)
+	image_caption = models.CharField(max_length = 60)
+	proile = models.ForeignKey(Profile)
+
+	def __str__(self):
+		return self.image_name
+		
