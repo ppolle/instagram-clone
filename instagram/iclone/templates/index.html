@@ -8,8 +8,9 @@
 			<div class="col-md-3">				
 						
 			     <div class="hovereffect thumbnail">
-			        <img class="img-responsive" src="{{image.image.url}}" alt="">
-			      
+			     	<a href="{% url 'single' image.id %}">
+			        	<img class="img-responsive" src="{{image.image.url}}" alt="">
+			      	</a>
 			        <div class="overlay">
 			           <h2>{{ image.image_name }}</h2>
 			    

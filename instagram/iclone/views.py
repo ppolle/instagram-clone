@@ -31,3 +31,22 @@ def create(request):
 		form = NewImagePost()
 
 	return render(request,'accounts/create_post.html',{"form":form})
+
+@login_required(login_url='/accounts/login/')
+def updateProfile(request):
+	current_user = request.user
+	if request.method == 'POST':
+		form = UpdateProfile(request.POST,request.FILES)
+		if form.is_valid():
+			profile = form.save(commit = False)
+			profile.user = current_user
+			profile.save()
+			HttpResponseRedirect('profile')
+		else:
+			form = UpdateProfile()
+
+	return render(request,'accounts/update_profile.html',{"form":form})
+
+def single(request,image_id):
+	image = Image.objects.get(id = image_id)
+	return render(request,'accounts/single.html',{"image":image})

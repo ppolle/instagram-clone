@@ -1,0 +1,20 @@
+{%extends 'base.html'%}
+{% load bootstrap3 %}
+{% block content%}
+<h1 class="text-center">Single view{{image.image_name}}</h1>
+<div class="container">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<div class="thumbnail">
+				<img src="{{image.image.url}}">
+			</div>
+		</div>
+		<div class="col-md-2"></div>
+	
+
+	</div>
+</div>
+
+
+{%endblock%}
