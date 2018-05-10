@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from .forms import NewImagePost,CreateComment,UpdateProfile
-from .models import Image,Comment
+from .models import Image,Comment,Profile
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -35,8 +35,12 @@ def create(request):
 @login_required(login_url='/accounts/login/')
 def updateProfile(request):
 	current_user = request.user
+	profile = Profile.objects.get(user_id = current_user)
 	if request.method == 'POST':
-		form = UpdateProfile(request.POST,request.FILES)
+		if profile:
+			form = UpdateProfile(request.POST,request.FILES,instance = profile)
+		else:
+			form = UpdateProfile(request.POST,request.FILES)
 		if form.is_valid():
 			profile = form.save(commit = False)
 			profile.user = current_user
@@ -62,5 +66,5 @@ def single(request,image_id):
 		form = CreateComment()
 
 	image = Image.objects.get(id = image_id)
-	comments = Comment.objects.filter(id = image_id)
+	comments = Comment.objects.filter(image = image_id)
 	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form})

@@ -18,7 +18,8 @@
 					
 					<p>{% if comments%}
 							{%for comment in comments%}
-								{{comment.comment}}
+							<p>{{comment.comment}}</p>
+								
 							{%endfor%}
 						{%else%}
 						 <p>No comments here.Be the first to comment</p>
