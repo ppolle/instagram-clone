@@ -1,19 +1,6 @@
 {%extends 'base.html'%}
 {% block content%}
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Create New Post</h4>
-      </div>
-      <div class="modal-body">
-	     
-      </div>
-     
-    </div>
-  </div>
-</div>
+
 
 <h1 class="text-center">Welcome To Your Profile Page</h1>
 <div class="container">
@@ -27,7 +14,9 @@
 	<div class="col-md-3">				
 				
 	     <div class="hovereffect thumbnail">
-	        <img class="img-responsive" src="{{image.image.url}}" alt="">
+	        <a href="{% url 'single' image.id %}">
+			        	<img class="img-responsive" src="{{image.image.url}}" alt="">
+			</a>
 	      
 	        <div class="overlay">
 	           <h2>{{ image.image_name }}</h2>
@@ -38,7 +27,7 @@
 	</div>
 	{%endfor%}
 	{%else%}
-	<h3 class="text-center">You havent posted any images yet. Get started by posting one <a href="#" data-toggle="modal" data-target="#myModal">here</a></h3>
+		<h3 class="text-center">You havent posted any images yet. Get started by posting one <a href="{% url 'create' %}">here</a></h3>
 	{%endif%}
 
 	
