@@ -25,7 +25,7 @@ def create(request):
 			post = form.save(commit =  False)
 			post.profile = current_user
 			post.save()
-			HttpResponseRedirect('profile')
+			return redirect('/accounts/profile')
 	else:
 		
 		form = NewImagePost()
@@ -42,10 +42,10 @@ def updateProfile(request):
 		else:
 			form = UpdateProfile(request.POST,request.FILES)
 		if form.is_valid():
-			profile = form.save(commit = False)
-			profile.user = current_user
-			profile.save()
-			HttpResponseRedirect('profile')
+			userProfile = form.save(commit = False)
+			userProfile.user = current_user
+			userProfile.save()
+			return redirect('/accounts/profile')
 	else:
 		form = UpdateProfile()
 
