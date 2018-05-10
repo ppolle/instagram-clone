@@ -10,6 +10,12 @@
 				<img src="{{image.image.url}}">
 				<div class="caption">
 					<p>Comments</p>
+					<form  action="{% url 'single' image.id%}" method="post">
+		        		{%csrf_token%}
+		        		{% bootstrap_form form%}
+		        		<input type="submit" class="btn btn-sm btn-primary" name="" value="Comment">
+		    		</form>
+					
 					<p>{% if comments%}
 							{%for comment in comments%}
 								{{comment.comment}}

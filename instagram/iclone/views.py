@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
-from .forms import NewImagePost
+from .forms import NewImagePost,CreateComment,UpdateProfile
 from .models import Image,Comment
 from django.contrib.auth.decorators import login_required
 
@@ -42,12 +42,25 @@ def updateProfile(request):
 			profile.user = current_user
 			profile.save()
 			HttpResponseRedirect('profile')
-		else:
-			form = UpdateProfile()
+	else:
+		form = UpdateProfile()
 
 	return render(request,'accounts/update_profile.html',{"form":form})
 
 def single(request,image_id):
+	
+	images_id = Image.objects.get(id = image_id)
+	if request.method == 'POST':
+		form = CreateComment(request.POST)
+		if form.is_valid():
+			comment = form.save(commit = False)
+			comment.image = images_id
+			comment.profile = request.user
+			comment.save()
+			HttpResponseRedirect('single')
+	else:
+		form = CreateComment()
+
 	image = Image.objects.get(id = image_id)
 	comments = Comment.objects.filter(id = image_id)
-	return render(request,'accounts/single.html',{"image":image,"comments":comments})
+	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form})
