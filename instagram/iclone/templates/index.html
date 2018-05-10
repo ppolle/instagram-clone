@@ -2,26 +2,28 @@
 {% block content%}
 <h1 class="text-center">welcome to iClone</h1>
 <div class="row">
-	{%if images%}
-	{% for image in images%}
-	<div class="col-md-3">				
-				
-	     <div class="hovereffect thumbnail">
-	        <img class="img-responsive" src="{{image.image.url}}" alt="">
-	      
-	        <div class="overlay">
-	           <h2>{{ image.image_name }}</h2>
-	    
-	        </div>
-	    </div>
+	{% if user.is_authenticated %}
+		{%if images%}
+			{% for image in images%}
+			<div class="col-md-3">				
+						
+			     <div class="hovereffect thumbnail">
+			        <img class="img-responsive" src="{{image.image.url}}" alt="">
+			      
+			        <div class="overlay">
+			           <h2>{{ image.image_name }}</h2>
+			    
+			        </div>
+			    </div>
 
-	</div>
-	{%endfor%}
+			</div>
+			{%endfor%}
+		{%else%}
+		<h3 class="text-center">You havent posted any images yet. Get started by posting one <a href="#" data-toggle="modal" data-target="#myModal">here</a></h3>
+		{%endif%}
 	{%else%}
-	<h3 class="text-center">You havent posted any images yet. Get started by posting one <a href="#" data-toggle="modal" data-target="#myModal">here</a></h3>
+	 <h3 class="text-center">Log in to view this content</h3>	
 	{%endif%}
-
-	
 </div>
 
 {%endblock%}

@@ -9,8 +9,15 @@ def index(request):
 	images = Image.objects.all()
 	return render(request,'index.html',{"images":images})
 
+
 @login_required(login_url='/accounts/login/')
 def profile(request):
+	current_user = request.user
+	images = Image.objects.filter(profile = current_user)
+	return render(request,'accounts/profile.html',{"images":images})
+
+@login_required(login_url='/accounts/login/')
+def create(request):
 	current_user = request.user
 	if request.method == 'POST':
 		form = NewImagePost(request.POST,request.FILES)
@@ -22,7 +29,5 @@ def profile(request):
 	else:
 		
 		form = NewImagePost()
-	images = Image.objects.filter(profile = current_user)
-	return render(request,'accounts/profile.html',{"form":form,"images":images})
 
-
+	return render(request,'accounts/create_post.html',{"form":form})

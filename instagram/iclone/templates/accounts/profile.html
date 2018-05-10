@@ -1,5 +1,4 @@
 {%extends 'base.html'%}
-{% load bootstrap3 %}
 {% block content%}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -9,22 +8,7 @@
         <h4 class="modal-title" id="myModalLabel">Create New Post</h4>
       </div>
       <div class="modal-body">
-	        <form  action="{% url 'profile'%}" method="post" enctype="multipart/form-data">
-	        {%csrf_token%}
-
-	        {% bootstrap_form form%}
-	        <div class="row">
-	        	<div class="col-md-5">
-	        	<input type="submit" class="btn btn-success btn-default btn-block" value="Post">
-	        </div>
-	        <div class="col-md-2"></div>
-	        <div class="col-md-5">
-	        	<button type="button" class="btn btn-default btn-block" data-dismiss="modal">Close</button>
-	        </div>
-	        </div>
-	        
-	        
-	      </form>
+	     
       </div>
      
     </div>
@@ -33,7 +17,7 @@
 
 <h1 class="text-center">Welcome To Your Profile Page</h1>
 <div class="container">
-	<div class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal">Post Image</div>
+	<a class="btn btn-sm btn-success" href="{% url 'create' %}">Post Image</a>
 	<div class="btn btn-sm btn-primary"> Update Profile</div>
 </div>
 

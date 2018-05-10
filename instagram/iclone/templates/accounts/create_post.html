@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+{% load bootstrap3 %}
+{% block content%}
+<h1 class="text-center">Create a new post</h1>
+<div class="container">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<form  action="{% url 'profile'%}" method="post" enctype="multipart/form-data">
+		        {%csrf_token%}
+
+		        {% bootstrap_form form%}
+		        <div class="row">
+		        <div class="col-md-5">
+		        	<input type="submit" class="btn btn-success btn-default btn-block" value="Post">
+		        </div>
+		        <div class="col-md-2"></div>
+		        <div class="col-md-5">
+		        	
+		        </div>
+		        </div>
+	        </form>
+		</div>
+		<div class="col-md-2"></div>
+	
+
+	</div>
+</div>
+
+
+{%endblock%}
