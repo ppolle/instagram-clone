@@ -9,6 +9,7 @@
 			<div class="thumbnail">
 				<img src="{{image.image.url}}">
 				<div class="caption">
+					Uploaded by:{{image.profile}}
 					<p>Comments</p>
 					<form  action="{% url 'single' image.id%}" method="post">
 		        		{%csrf_token%}
@@ -18,7 +19,8 @@
 					
 					<p>{% if comments%}
 							{%for comment in comments%}
-							<p>{{comment.comment}}</p>
+							<p><strong>{{comment.profile}}</strong> :
+							{{comment.comment}}</p>
 								
 							{%endfor%}
 						{%else%}

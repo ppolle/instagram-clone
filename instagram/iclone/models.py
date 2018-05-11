@@ -30,3 +30,8 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return self.profile
+
+class Follow(models.Model):
+      following = models.ForeignKey(User, related_name="who_follows")
+      follower = models.ForeignKey(User, related_name="who_is_followed")
+

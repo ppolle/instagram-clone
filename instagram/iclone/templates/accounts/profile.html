@@ -6,6 +6,19 @@
 <div class="container">
 	<a class="btn btn-sm btn-success" href="{% url 'create' %}">Post Image</a>
 	<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
+	<br>
+	<div class="row">
+		<div class="col-md-4">
+		<img class="img-responsive img-circle" src="{{profile.profile_pic.url}}" alt="">
+	</div>
+	<div class="col-md-8">
+		{{profile.bio}}
+	</div>
+	</div>
+	
+		
+	
+	
 </div>
 
 <div class="row">
