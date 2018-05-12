@@ -7,14 +7,18 @@
 	<a class="btn btn-sm btn-success" href="{% url 'create' %}">Post Image</a>
 	<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
 	<br>
-	<div class="row">
-		<div class="col-md-4">
-		<img class="img-responsive img-circle" src="{{profile.profile_pic.url}}" alt="">
-	</div>
-	<div class="col-md-8">
-		{{profile.bio}}
-	</div>
-	</div>
+	{%if profile%}
+		<div class="row">
+			<div class="col-md-4">
+			<img class="img-responsive img-circle" src="{{profile.profile_pic.url}}" alt="">
+		</div>
+		<div class="col-md-8">
+			{{profile.bio}}
+		</div>
+		</div>
+		{%else%}
+		<p>No bio here. Create one by clicking here</p>
+		{%endif%}
 	
 		
 	

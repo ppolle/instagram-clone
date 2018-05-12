@@ -13,9 +13,13 @@ def index(request):
 @login_required(login_url='/accounts/login/')
 def profile(request):
 	current_user = request.user
-	profile = Profile.objects.get(user = current_user)
 	images = Image.objects.filter(profile = current_user)
+	# profile = Profile.objects.get(user = current_user)
 	return render(request,'accounts/profile.html',{"images":images,"profile":profile})
+	# if profile:
+		
+	# else:
+	# 	return render(request,'accounts/profile.html',{"images":images})
 
 @login_required(login_url='/accounts/login/')
 def create(request):
