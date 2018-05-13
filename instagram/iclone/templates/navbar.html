@@ -16,9 +16,9 @@
     
     
       <ul class="nav navbar-nav navbar-right">
-          <form class="navbar-form navbar-left">
+          <form class="navbar-form navbar-left" class="{% url 'search' %}">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
+              <input type="text" class="form-control" placeholder="Search" name = "search">
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
           </form>

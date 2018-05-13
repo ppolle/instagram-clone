@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from .forms import NewImagePost,CreateComment,UpdateProfile
-from .models import Image,Comment,Profile
+from .models import Image,Comment,Profile,User
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -17,10 +17,7 @@ def profile(request):
 	title = current_user
 	profile = Profile.objects.filter(user = current_user)
 	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title})
-	# if :
-		
-	# else:
-	# 	return render(request,'accounts/profile.html',{"images":images})
+	
 
 @login_required(login_url='/accounts/login/')
 def create(request):
@@ -77,3 +74,14 @@ def single(request,image_id):
 
 	comments = Comment.objects.filter(image = image_id)
 	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form,"title":title})
+
+def search(request,search_term):
+	if request.GET['search']:
+		search_term = request.GET.get("search")
+		profiles = User.objects.filter(username__icontains = search_term)
+		message = f"{search_term}"
+
+		return render(request,'accounts/search.html',{"message":message,"profiles":profiles})
+	else:
+		message = "You haven't searched for any item"
+		return render(request,'accounts/search.html',{"message":message})

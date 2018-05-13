@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+{% block content%}
+
+
+<h1 class="text-center">Search results for the profile name: {{message}}</h1>
+{% for profile in profiles %}
+<li>{{profile.username}}</li>
+{%endfor%}
+
+
+
+{%endblock%}
