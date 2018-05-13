@@ -19,6 +19,24 @@ class Image(models.Model):
 	profile = models.ForeignKey(User)
 	image = models.ImageField(upload_to = 'images/')
 
+	@classmethod
+	def save_image(self):
+		self.save()
+
+	@classmethod
+	def delete_image(self):
+		self.delete()
+
+	@classmethod
+	def update_caption(cls,id,caption):
+		updated_caption = cls.objects.filter(pk = id).update(image_caption = caption)
+		return updated_location	
+
+	@classmethod
+	def get_image_by_id(cls,image_id):
+		image = cls.objects.get(id = image_id)
+		return image
+
 	def __str__(self):
 		return self.image_name
 

@@ -58,7 +58,7 @@ def updateProfile(request):
 
 def single(request,image_id):
 	
-	images_id = Image.objects.get(id = image_id)
+	images_id = Image.get_image_by_id(image_id)
 	if request.method == 'POST':
 		form = CreateComment(request.POST)
 		if form.is_valid():
@@ -70,6 +70,6 @@ def single(request,image_id):
 	else:
 		form = CreateComment()
 
-	image = Image.objects.get(id = image_id)
+	image = Image.get_image_by_id(image_id)
 	comments = Comment.objects.filter(image = image_id)
 	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form})
