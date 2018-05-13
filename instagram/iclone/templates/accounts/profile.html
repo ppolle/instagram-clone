@@ -1,24 +1,25 @@
 {%extends 'base.html'%}
 {% block content%}
-
-
-<h1 class="text-center">Welcome To Your Profile Page</h1>
 <div class="container">
-	<a class="btn btn-sm btn-success" href="{% url 'create' %}">Post Image</a>
-	<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
-	<br>
-	{%for profile in profile%}
-		<div class="row">
-			<div class="col-md-4">
-			<img class="img-responsive img-circle" src="{{profile.profile_pic.url}}" alt="">
-		</div>
-		<div class="col-md-8">
 
-			{{profile.bio}}
-		</div>
+	{%for profile in profile%}
+		<div class="row" style="padding-bottom:20px">
+		
+			<div class="col-md-4">
+				<img class="center-block img-responsive img-circle" src="{{profile.profile_pic.url}}" alt="" style="width:170px; height:170px">
+			</div>
+			<div class="col-md-8">
+				<h2><strong>{{profile.user}}</strong></h2>
+				<h4><strong>0</strong> Post <strong>0</strong> Followers <strong>0</strong> Following</h4>
+				<h4>{{profile.bio}}</h4>
+				<a class="btn btn-sm btn-success" href="{% url 'create' %}">Create Post</a>
+				<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
+			</div>
+		
 		</div>
 	
 		{%endfor%}
+
 	
 		
 	
@@ -26,29 +27,28 @@
 </div>
 
 <div class="row">
+	<div class="container">
 	{%if images%}
 	{% for image in images%}
-	<div class="col-md-3">				
-				
-	     <div class="hovereffect thumbnail">
-	        <a href="{% url 'single' image.id %}">
-			        	<img class="img-responsive" src="{{image.image.url}}" alt="">
-			</a>
-	      
-	        <div class="overlay">
-	        	
-	           <h2>{{ image.image_name }}</h2>
-	    
-	        </div>
-	    </div>
+	
+		<div class="col-md-4">				
+					
+		     <div class="hovereffect thumbnail">
+		        <a href="{% url 'single' image.id %}">
+				        	<img class="img-responsive" src="{{image.image.url}}" alt="">
+				</a>
+		      
+		      
+		    </div>
 
-	</div>
+		</div>
+	
 	{%endfor%}
 	{%else%}
 		<h3 class="text-center">You havent posted any images yet. Get started by posting one <a href="{% url 'create' %}">here</a></h3>
 	{%endif%}
 
-	
+	</div>
 </div>
 
 {%endblock%}
