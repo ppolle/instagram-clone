@@ -14,7 +14,7 @@
 		<div class="col-md-5">
 			<div class="panel panel-default">
 			  <div class="panel-heading">
-			    <h3 class="panel-title">{{image.profile}}</h3>
+			    <h3 class="panel-title"><a href="{% url 'profile' image.profile.id %}">{{image.profile}}</a></h3>
 			  </div>
 			  <div class="panel-body">
 			  	<strong>{{image.profile}}</strong>

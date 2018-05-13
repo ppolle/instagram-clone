@@ -11,11 +11,11 @@ def index(request):
 
 
 @login_required(login_url='/accounts/login/')
-def profile(request):
+def profile(request,prof_id):
 	current_user = request.user
-	images = Image.objects.filter(profile = current_user)
+	images = Image.objects.filter(profile = prof_id)
 	title = current_user
-	profile = Profile.objects.filter(user = current_user)
+	profile = Profile.objects.filter(user = prof_id)
 	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title})
 	
 
@@ -50,7 +50,7 @@ def updateProfile(request):
 			userProfile = form.save(commit = False)
 			userProfile.user = current_user
 			userProfile.save()
-			return redirect('/accounts/profile')
+			return redirect('profile',current_user.id)
 	else:
 		form = UpdateProfile()
 
