@@ -14,9 +14,10 @@ def index(request):
 def profile(request):
 	current_user = request.user
 	images = Image.objects.filter(profile = current_user)
-	# profile = Profile.objects.get(user = current_user)
-	return render(request,'accounts/profile.html',{"images":images,"profile":profile})
-	# if profile:
+	title = current_user
+	profile = Profile.objects.filter(user = current_user)
+	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title})
+	# if :
 		
 	# else:
 	# 	return render(request,'accounts/profile.html',{"images":images})
@@ -24,6 +25,7 @@ def profile(request):
 @login_required(login_url='/accounts/login/')
 def create(request):
 	current_user = request.user
+	title = "Create New Post"
 	if request.method == 'POST':
 		form = NewImagePost(request.POST,request.FILES)
 		if form.is_valid():
@@ -35,15 +37,16 @@ def create(request):
 		
 		form = NewImagePost()
 
-	return render(request,'accounts/create_post.html',{"form":form})
+	return render(request,'accounts/create_post.html',{"form":form,"title":title})
 
 @login_required(login_url='/accounts/login/')
 def updateProfile(request):
 	current_user = request.user
-	profile = Profile.objects.get(user_id = current_user)
+	
+	title = "Update Profile"
 	if request.method == 'POST':
-		if profile:
-			form = UpdateProfile(request.POST,request.FILES,instance = profile)
+		if Profile.objects.filter(user_id = current_user):
+			form = UpdateProfile(request.POST,request.FILES,instance = Profile.objects.get(user_id = current_user))
 		else:
 			form = UpdateProfile(request.POST,request.FILES)
 		if form.is_valid():
@@ -58,18 +61,19 @@ def updateProfile(request):
 
 def single(request,image_id):
 	
-	images_id = Image.get_image_by_id(image_id)
+	image = Image.get_image_by_id(image_id)
+	title = image.image_name
 	if request.method == 'POST':
 		form = CreateComment(request.POST)
 		if form.is_valid():
 			comment = form.save(commit = False)
-			comment.image = images_id
+			comment.image = image
 			comment.profile = request.user
 			comment.save()
 			HttpResponseRedirect('single')
 	else:
 		form = CreateComment()
 
-	image = Image.get_image_by_id(image_id)
+
 	comments = Comment.objects.filter(image = image_id)
-	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form})
+	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form,"title":title})
