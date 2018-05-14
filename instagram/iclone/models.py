@@ -15,8 +15,9 @@ class Image(models.Model):
 	
 	image_name = models.CharField(max_length = 60)
 	image_caption = models.CharField(max_length = 60)
-	# created_at = models.DateTimeField(auto_now_add = True)
+	created_at = models.DateTimeField(auto_now_add = True)
 	profile = models.ForeignKey(User)
+	user_profile = models.ForeignKey(Profile)
 	image = models.ImageField(upload_to = 'images/')
 
 	@classmethod
@@ -42,7 +43,7 @@ class Image(models.Model):
 
 class Comment(models.Model):
 	comment = models.CharField(max_length = 1000)
-	# created_at = models.DateTimeField(auto_now_add = True)
+	created_at = models.DateTimeField(auto_now_add = True)
 	image = models.ForeignKey(Image)
 	profile = models.ForeignKey(User)
 

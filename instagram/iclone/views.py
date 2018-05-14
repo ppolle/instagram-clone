@@ -4,6 +4,7 @@ from .forms import NewImagePost,CreateComment,UpdateProfile
 from .models import Image,Comment,Profile,User
 from django.contrib.auth.decorators import login_required
 
+
 # Create your views here.
 def index(request):
 	images = Image.objects.all()
@@ -22,14 +23,16 @@ def profile(request,prof_id):
 @login_required(login_url='/accounts/login/')
 def create(request):
 	current_user = request.user
+	profile = Profile.objects.get(user = request.user.id)
 	title = "Create New Post"
 	if request.method == 'POST':
 		form = NewImagePost(request.POST,request.FILES)
 		if form.is_valid():
 			post = form.save(commit =  False)
 			post.profile = current_user
+			post.user_profile = profile
 			post.save()
-			return redirect('/accounts/profile')
+			return redirect('profile',current_user.id)
 	else:
 		
 		form = NewImagePost()
@@ -75,7 +78,7 @@ def single(request,image_id):
 	comments = Comment.objects.filter(image = image_id)
 	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form,"title":title})
 
-def search(request,search_term):
+def search(request):
 	if request.GET['search']:
 		search_term = request.GET.get("search")
 		profiles = User.objects.filter(username__icontains = search_term)

@@ -14,13 +14,22 @@
 		<div class="col-md-5">
 			<div class="panel panel-default">
 			  <div class="panel-heading">
-			    <h3 class="panel-title"><a href="{% url 'profile' image.profile.id %}">{{image.profile}}</a></h3>
+			    <h3 class="panel-title">
+			    	<div class="row">
+						<div class="col-md-2">
+							<a href="{% url 'profile' image.profile.id %}"><img class="img-responsive img-circle" src="{{image.user_profile.profile_pic.url}}" alt="" style="width:35px; height:35px"></a>
+						</div>
+						<div class="col-md-10" style="padding-top:11px">
+							{{image.profile}}
+						</div>
+					</div>
+			    </h3>
 			  </div>
 			  <div class="panel-body">
 			  	<strong>{{image.profile}}</strong>
 			     {{image.image_caption}}
 			     {%for comment in comments%}
-				<p><strong>{{comment.profile}}</strong> :
+				<p><strong><a href="{%url 'profile' comment.profile.id %}">{{comment.profile}}</a></strong> :
 				{{comment.comment}}</p>
 				{%endfor%}
 				<hr>
@@ -37,6 +46,7 @@
 
 	</div>
 </div>
+
 
 
 {%endblock%}

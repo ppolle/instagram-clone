@@ -14,8 +14,8 @@
 				<h4><strong>0</strong> Post <strong>0</strong> Followers <strong>0</strong> Following</h4>
 				<h4>{{profile.bio}}</h4>
 					{%if profile.user.id == user.id%}
-					<a class="btn btn-sm btn-success" href="{% url 'create' %}">Create Post</a>
-					<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
+						<a class="btn btn-sm btn-success" href="{% url 'create' %}">Create Post</a>
+						<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
 					{%endif%}
 			</div>
 		
@@ -25,14 +25,16 @@
 	{%else%}
 
 			<div class="col-md-4">
-				<img class="center-block img-responsive img-circle" src="../../../media/profile/default.png" alt="" style="width:170px; height:170px">
+				<img class="center-block img-responsive img-circle" src="../../static/images/default.png" alt="" style="width:170px; height:170px">
 			</div>
 			<div class="col-md-8">
 				<h2><strong>{{user}}</strong></h2
 				<h4><strong>0</strong> Post <strong>0</strong> Followers <strong>0</strong> Following</h4>
 				<h4>An Awesome Bio Will Appear Here</h4>
-				<a class="btn btn-sm btn-success" href="{% url 'create' %}">Create Post</a>
-				<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
+				
+					<a class="btn btn-sm btn-success" href="{% url 'create' %}">Create Post</a>
+					<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
+					
 			</div>
 		
 		</div>
