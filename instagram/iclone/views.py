@@ -81,7 +81,7 @@ def single(request,image_id):
 def search(request):
 	if request.GET['search']:
 		search_term = request.GET.get("search")
-		profiles = User.objects.filter(username__icontains = search_term)
+		profiles = Profile.objects.filter(user__username__icontains = search_term)
 		message = f"{search_term}"
 
 		return render(request,'accounts/search.html',{"message":message,"profiles":profiles})
