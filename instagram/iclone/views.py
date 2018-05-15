@@ -59,6 +59,7 @@ def updateProfile(request):
 
 	return render(request,'accounts/update_profile.html',{"form":form})
 
+@login_required(login_url='/accounts/login/')
 def single(request,image_id):
 	
 	image = Image.get_image_by_id(image_id)
@@ -78,6 +79,7 @@ def single(request,image_id):
 	comments = Comment.objects.filter(image = image_id)
 	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form,"title":title})
 
+@login_required(login_url='/accounts/login/')
 def search(request):
 	if request.GET['search']:
 		search_term = request.GET.get("search")
@@ -89,6 +91,7 @@ def search(request):
 		message = "You haven't searched for any item"
 		return render(request,'accounts/search.html',{"message":message})
 
+@login_required(login_url='/accounts/login/')
 def likePost(request,image_id):
 	image = Image.objects.get(pk = image_id)
 	
@@ -99,6 +102,6 @@ def likePost(request,image_id):
 	else:
 		image.likes.add(request.user)
 		
-	return redirect('index')
-	# return HttoResponseRedirect(image.get_absolute_url())
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 

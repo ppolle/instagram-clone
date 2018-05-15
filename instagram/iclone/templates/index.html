@@ -37,7 +37,9 @@
 
 			      		 <a class='info' href="{% url 'single' image.id %}">
 			      		 <i class="far fa-comment" style="font-size:25px;padding-left: 10px"></i>
+
 			      		</a>
+			      		<span style="font-size:25px;">{{image.likes.count}}</span>
 			      		<p></p>
 			      		<p><strong>{{image.profile}}</strong>: {{image.image_caption}}</p>
 			      		

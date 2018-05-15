@@ -8,6 +8,14 @@
 		<div class="col-md-7">
 			<div class="thumbnail">
 				<img src="{{image.image.url}}">
+				<div class="panel">
+					<div class="panel-body">
+						 	<a class='info' href="{% url 'likePost' image.id %}">
+			      		 	<i class="far fa-heart" style="font-size:25px;" class="success"></i>
+
+			      		</a><span style="font-size:25px;">{{image.likes.count}}</span>
+					</div>
+				</div>
 				
 			</div>
 		</div>
