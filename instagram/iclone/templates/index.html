@@ -5,16 +5,22 @@
 	{% if user.is_authenticated %}
 		{%if images%}
 			{% for image in images%}
-			<div class="col-md-3">				
+			<div class="col-md-4">				
 						
 			     <div class="hovereffect thumbnail">
 			     	<a href="{% url 'single' image.id %}">
 			        	<img class="img-responsive" src="{{image.image.url}}" alt="">
 			      	</a>
-			        <div class="overlay">
-			           <h2>{{ image.image_name }}</h2>
-			    
-			        </div>
+			      	<div class="overlay">
+			      		 <a class='info' href="{% url 'single' image.id %}">
+			      		 	<i class="far fa-heart" style="font-size:25px;" class="success"></i>
+			      		 </a>
+			      		 <a class='info' href="{% url 'single' image.id %}">
+			      		 <i class="far fa-comment" style="font-size:25px;"></i>
+			      		</a>
+
+			      	</div>
+			      
 			    </div>
 
 			</div>

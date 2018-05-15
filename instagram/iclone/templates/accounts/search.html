@@ -7,6 +7,7 @@
 	<div class="col-md-8">
 		<div class="panel panel-default">
 		  <div class="panel-heading"><h3>Search results for the profile name: <strong>{{message}}</strong></h3></div>
+		  {%if profiles%}
 		  	{% for profile in profiles %}
 			<div class="panel-body">
 				<div class="row">
@@ -19,6 +20,11 @@
 				</div>
 			</div>
 		{%endfor%}
+		{%else%}
+		<div class="panel-body">
+				<h3 class="text-center">No user with the name <strong>{{message}}</strong> exists!</h3>
+			</div>
+		{%endif%}
 	    
 	  
 	</div>
