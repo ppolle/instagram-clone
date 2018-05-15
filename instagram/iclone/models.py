@@ -18,6 +18,7 @@ class Image(models.Model):
 	created_at = models.DateTimeField(auto_now_add = True)
 	profile = models.ForeignKey(User)
 	user_profile = models.ForeignKey(Profile)
+	likes = models.ManyToManyField(User,related_name = 'likes', blank = True)
 	image = models.ImageField(upload_to = 'images/')
 
 	@classmethod
@@ -37,6 +38,8 @@ class Image(models.Model):
 	def get_image_by_id(cls,image_id):
 		image = cls.objects.get(id = image_id)
 		return image
+	def total_likes(self):
+		self.likes.count()
 
 	def __str__(self):
 		return self.image_name

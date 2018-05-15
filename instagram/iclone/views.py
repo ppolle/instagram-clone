@@ -88,3 +88,17 @@ def search(request):
 	else:
 		message = "You haven't searched for any item"
 		return render(request,'accounts/search.html',{"message":message})
+
+def likePost(request,image_id):
+	image = Image.objects.get(pk = image_id)
+	
+
+	if image.likes.filter(id = request.user.id).exists():
+		image.likes.remove(request.user)
+		
+	else:
+		image.likes.add(request.user)
+		
+	return redirect('index')
+	# return HttoResponseRedirect(image.get_absolute_url())
+
