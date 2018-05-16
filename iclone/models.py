@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Profile(models.Model):
 	bio = models.CharField(max_length = 300,blank = True,default = 'Awesome Bio Will Appear Here')
-	profile_pic = models.ImageField(upload_to = 'profile/', blank = True,default = 'profile/default.png')
+	profile_pic = models.ImageField(upload_to = 'profile/', blank = True,default = '../static/images/default.png')
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 	follow = models.ManyToManyField(User,related_name = 'who_following',blank=True)
 
@@ -57,5 +57,5 @@ class Comment(models.Model):
 #Add the following field to User dynamically
 def get_first_name(self):
     return self.first_name
-    
+
 User.add_to_class("__str__", get_first_name)
