@@ -54,3 +54,8 @@ class Comment(models.Model):
 	def __str__(self):
 		return self.profile
 
+#Add the following field to User dynamically
+def get_first_name(self):
+    return self.first_name
+    
+User.add_to_class("__str__", get_first_name)

@@ -21,20 +21,13 @@ def profile(request,prof_id):
 	profile = Profile.objects.filter(user = prof_id)
 	followUser = User.objects.get(pk = prof_id)
 
-	follows=Profile.objects.filter(id=request.user.id)
-	is_follow=False
-	if follows.follow.filter(id=prof_id).exists():
-		is_follow=True
-
-	following=follows.follow.all()
-	followers=follows.user.who_following.all()
-	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title,"followUser":followUser,"is_follow":is_follow,"following":following,"followers":followers})
+	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title})
 	
 
 @login_required(login_url='/accounts/login/')
 def create(request):
 	current_user = request.user
-	profile = Profile.objects.filter(user = request.user.id)
+	profile = Profile.objects.get(user = request.user.id)
 	title = "Create New Post"
 	if request.method == 'POST':
 		form = NewImagePost(request.POST,request.FILES)
