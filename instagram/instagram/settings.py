@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hu1ql_)_ynsshs@lue8t)4jzuql(q4u1gva93v@=jkqx-_4kii'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,13 +77,10 @@ WSGI_APPLICATION = 'instagram.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'instagram',
-        'USER': 'peter',
-        'PASSWORD':'iamBOSS12',
-    }
-}
+      'default': dj_database_url.config(
+          default='sqlite:////{0}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
+      )
+  }
 
 
 # Password validation

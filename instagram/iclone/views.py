@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect
-from django.http  import HttpResponse,Http404,HttpResponseRedirect
+from django.http  import HttpResponse,Http404,HttpResponseRedirect,JsonResponse
 from .forms import NewImagePost,CreateComment,UpdateProfile
 from .models import Image,Comment,Profile,User,Follow
 from django.contrib.auth.decorators import login_required
+from common.decorators import ajax_required
+from django.views.decorators.http import require_POST
 
 
 # Create your views here.
@@ -108,7 +110,8 @@ def likePost(request,image_id):
 		is_liked = True
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-
+@ajax_required
+@require_POST
 def user_follow(request):
 	user_id = request.POST.get('id')
 	action = request.POST.get('action')
