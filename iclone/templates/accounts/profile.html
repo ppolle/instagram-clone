@@ -11,7 +11,7 @@
 			</div>
 			<div class="col-md-8">
 				<h2><strong>{{profile.user}}</strong></h2>
-				<h4><strong>{{images|length}}</strong> Post{{images|pluralize}} <strong>0</strong> Followers <strong>0</strong> Following</h4>
+				<h4><strong>{{images|length}}</strong> Post{{images|pluralize}} <strong>{{followers|length}}</strong> Follower{{followers|pluralize}} <strong>{{following|length}}</strong> Following</h4>
 				<h4>{{profile.bio}}</h4>
 					{%if profile.user.id == user.id%}
 						<a class="btn btn-sm btn-success" href="{% url 'create' %}">Create Post</a>

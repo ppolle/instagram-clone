@@ -25,7 +25,10 @@ def profile(request,prof_id):
 	is_follow=False
 	if follows.follow.filter(id=prof_id).exists():
 		is_follow=True
-	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title,"followUser":followUser,"is_follow":is_follow})
+
+	following=follows.follow.all()
+	followers=follows.user.who_following.all()
+	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title,"followUser":followUser,"is_follow":is_follow,"following":following,"followers":followers})
 	
 
 @login_required(login_url='/accounts/login/')
