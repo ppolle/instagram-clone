@@ -130,7 +130,6 @@ def follow(request,user_id):
    else:
        follows.follow.add(user1)
        is_follow=True
-
-   
+  
 
    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
