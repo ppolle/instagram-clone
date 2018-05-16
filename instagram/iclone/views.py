@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from .forms import NewImagePost,CreateComment,UpdateProfile
-from .models import Image,Comment,Profile,User
+from .models import Image,Comment,Profile,User,Follow
 from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 def index(request):
 	images = Image.objects.all()
+	
 	return render(request,'index.html',{"images":images})
 
 
@@ -15,9 +16,10 @@ def index(request):
 def profile(request,prof_id):
 	current_user = request.user
 	images = Image.objects.filter(profile = prof_id)
-	title = current_user
+	title = User.objects.get(pk = prof_id).username
 	profile = Profile.objects.filter(user = prof_id)
-	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title})
+	followUser = User.objects.get(pk = prof_id)
+	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title,"followUser":followUser})
 	
 
 @login_required(login_url='/accounts/login/')
@@ -75,9 +77,11 @@ def single(request,image_id):
 	else:
 		form = CreateComment()
 
-
+	is_liked = False
+	if image.likes.filter(id = request.user.id).exists():
+		is_liked = True	
 	comments = Comment.objects.filter(image = image_id)
-	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form,"title":title})
+	return render(request,'accounts/single.html',{"image":image,"comments":comments,"form":form,"title":title,"is_liked":is_liked})
 
 @login_required(login_url='/accounts/login/')
 def search(request):
@@ -95,13 +99,30 @@ def search(request):
 def likePost(request,image_id):
 	image = Image.objects.get(pk = image_id)
 	
-
+	is_liked = False
 	if image.likes.filter(id = request.user.id).exists():
 		image.likes.remove(request.user)
-		
+		is_liked = False
 	else:
 		image.likes.add(request.user)
-		
+		is_liked = True
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+def user_follow(request):
+	user_id = request.POST.get('id')
+	action = request.POST.get('action')
+	if user_id and action:
+		try:
+			user = User.objects.get(id=user_id)
+			if action == 'follow':
+				Follow.objects.get_or_create(user_from=request.user,
+                                              user_to=user)
+				create_action(request.user, 'is following', user)
+			else:
+				Follow.objects.filter(user_from=request.user,
+                                       user_to=user).delete()
+				return JsonResponse({'status':'ok'})
+		except User.DoesNotExist:
+			return JsonResponse({'status':'ko'})
+	return JsonResponse({'status':'ko'})

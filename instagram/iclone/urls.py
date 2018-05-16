@@ -11,7 +11,8 @@ urlpatterns=[
      url(r'^accounts/search',views.search,name = 'search'),
     url(r'^accounts/updateProfile',views.updateProfile,name = 'updateProfile'),
     url(r'^accounts/single/(\d+)',views.single,name = 'single'),
-    url(r'^like/(\d+)',views.likePost,name= 'likePost')
+    url(r'^like/(\d+)',views.likePost,name= 'likePost'),
+    url(r'^follow/$',views.user_follow,name= 'user_follow')
 
 ]
 if settings.DEBUG:

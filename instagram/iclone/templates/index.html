@@ -20,7 +20,7 @@
 
 					 </div>
 				  <div class="panel-title">
-				       <div class="hovereffect">
+				       <div class="hovereffect" style="height: 245px">
 				     	<a href="{% url 'single' image.id %}">
 				        	<img class="img-responsive" src="{{image.image.url}}" alt="">
 				      	</a>
@@ -36,10 +36,14 @@
 			      		</a><span style="font-size:25px;">{{image.likes.count}}</span>
 
 			      		 <a class='info' href="{% url 'single' image.id %}">
-			      		 <i class="far fa-comment" style="font-size:25px;padding-left: 10px"></i>
+			      		 	 {%if is_liked%}
+				      		 <i class="fas fa-comment" style="font-size:25px;padding-left: 10px"></i>
+				      		 {%else%}
+				      		 <i class="far fa-comment" style="font-size:25px;padding-left: 10px"></i>
+				      		 {%endif%}
 
 			      		</a>
-			      		<span style="font-size:25px;">{{image.likes.count}}</span>
+			      		<span style="font-size:25px;">{{image.comment | length}}</span>
 			      		<p></p>
 			      		<p><strong>{{image.profile}}</strong>: {{image.image_caption}}</p>
 			      		
@@ -53,7 +57,7 @@
 				</div>
 				{%endfor%}
 			{%else%}
-			<h3 class="text-center">You havent posted any images yet. Get started by posting one <a href="#" data-toggle="modal" data-target="#myModal">here</a></h3>
+			<h3 class="text-center">You havent posted any images yet. Get started by posting one <a href="{% url 'create' %}">here</a></h3>
 			{%endif%}
 		{%else%}
 		 <h3 class="text-center">Log in to view this content</h3>	

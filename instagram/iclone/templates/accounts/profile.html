@@ -11,11 +11,21 @@
 			</div>
 			<div class="col-md-8">
 				<h2><strong>{{profile.user}}</strong></h2>
-				<h4><strong>0</strong> Post <strong>0</strong> Followers <strong>0</strong> Following</h4>
+				<h4><strong>{{images|length}}</strong> Post{{images|pluralize}} <strong>0</strong> Followers <strong>0</strong> Following</h4>
 				<h4>{{profile.bio}}</h4>
 					{%if profile.user.id == user.id%}
 						<a class="btn btn-sm btn-success" href="{% url 'create' %}">Create Post</a>
 						<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
+						
+					{%else%}
+					
+						 <a href="#" data-id="{{ followUser.id }}" data-action="{% if request.user in followUser.followers.all %}un{% endif %}follow" class="follow button {% if request.user in followUser.followers.all %}btn btn-danger{%else%}btn btn-success{% endif %}">
+				            {% if request.user not in followUser.followers.all %}
+				                Follow
+				            {% else %}
+				                Unfollow
+				            {% endif %}
+				        </a>
 					{%endif%}
 			</div>
 		
@@ -57,8 +67,7 @@
 		     <div class="hovereffect thumbnail">
 		        <a href="{% url 'single' image.id %}">
 				        	<img class="img-responsive" src="{{image.image.url}}" alt="">
-				</a>
-		      
+				</a>     
 		      
 		    </div>
 
@@ -79,3 +88,29 @@
 </div>
 
 {%endblock%}
+
+{% block domready %}
+    $('a.follow').click(function(e){
+        e.preventDefault();
+        $.post('{% url "user_follow" %}',
+            {
+                id: $(this).data('id'),
+                action: $(this).data('action')
+            },
+            function(data){
+                if (data['status'] == 'ok')
+                {
+                    var previous_action = $('a.follow').data('action');
+
+                    // toggle data-action
+                    $('a.follow').data('action', previous_action == 'follow' ? 'unfollow' : 'follow');
+                    // toggle link text
+                    $('a.follow').text(previous_action == 'follow' ? 'Unfollow' : 'Follow');
+
+                    // update total followers
+                    var previous_followers = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'follow' ? previous_followers + 1 : previous_followers - 1);
+                }
+        });
+    });
+{% endblock %}

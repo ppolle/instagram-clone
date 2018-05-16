@@ -54,6 +54,20 @@ class Comment(models.Model):
 		return self.profile
 
 class Follow(models.Model):
-      following = models.ForeignKey(User, related_name="who_follows")
-      follower = models.ForeignKey(User, related_name="who_is_followed")
+    user_from = models.ForeignKey(User,related_name='rel_from_set')
+    user_to = models.ForeignKey(User, related_name='rel_to_set')
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
 
+    class Meta:
+        ordering = ('-created',)
+
+    def __str__(self):
+        return '{} follows {}'.format(self.user_from, self.user_to)
+
+
+# Add following field to User dynamically
+User.add_to_class('following',
+                  models.ManyToManyField('self',
+                                         through=Follow,
+                                         related_name='followers',
+                                         symmetrical=False))
