@@ -1,9 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect,JsonResponse
 from .forms import NewImagePost,CreateComment,UpdateProfile
-from .models import Image,Comment,Profile,User,Follow
+from .models import Image,Comment,Profile,User
 from django.contrib.auth.decorators import login_required
-from common.decorators import ajax_required
 from django.views.decorators.http import require_POST
 
 
@@ -21,7 +20,12 @@ def profile(request,prof_id):
 	title = User.objects.get(pk = prof_id).username
 	profile = Profile.objects.filter(user = prof_id)
 	followUser = User.objects.get(pk = prof_id)
-	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title,"followUser":followUser})
+
+	follows=Profile.objects.get(id=request.user.id)
+	is_follow=False
+	if follows.follow.filter(id=prof_id).exists():
+		is_follow=True
+	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title,"followUser":followUser,"is_follow":is_follow})
 	
 
 @login_required(login_url='/accounts/login/')
@@ -110,22 +114,20 @@ def likePost(request,image_id):
 		is_liked = True
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-@ajax_required
-@require_POST
-def user_follow(request):
-	user_id = request.POST.get('id')
-	action = request.POST.get('action')
-	if user_id and action:
-		try:
-			user = User.objects.get(id=user_id)
-			if action == 'follow':
-				Follow.objects.get_or_create(user_from=request.user,
-                                              user_to=user)
-				create_action(request.user, 'is following', user)
-			else:
-				Follow.objects.filter(user_from=request.user,
-                                       user_to=user).delete()
-				return JsonResponse({'status':'ok'})
-		except User.DoesNotExist:
-			return JsonResponse({'status':'ko'})
-	return JsonResponse({'status':'ko'})
+
+def follow(request,user_id):
+
+   follows=Profile.objects.get(id=request.user.id)
+   user1=User.objects.get(id=user_id)
+   #user=Profile.objects.get(id=user_id)
+   is_follow=False
+   if follows.follow.filter(id=user_id).exists():
+       follows.follow.remove(user1)
+       is_follow=False
+   else:
+       follows.follow.add(user1)
+       is_follow=True
+
+   
+
+   return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

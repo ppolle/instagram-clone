@@ -1,2 +1,3 @@
 virtual/
-instagram/media/
+media/
+.env

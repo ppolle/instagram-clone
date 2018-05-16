@@ -18,14 +18,12 @@
 						<a class="btn btn-sm btn-primary" href="{% url 'updateProfile' %}"> Update Profile</a>
 						
 					{%else%}
-					
-						 <a href="#" data-id="{{ followUser.id }}" data-action="{% if request.user in followUser.followers.all %}un{% endif %}follow" class="follow button {% if request.user in followUser.followers.all %}btn btn-danger{%else%}btn btn-success{% endif %}">
-				            {% if request.user not in followUser.followers.all %}
-				                Follow
-				            {% else %}
-				                Unfollow
-				            {% endif %}
-				        </a>
+						 {%if is_follow%}
+						 <a href="{% url 'user_follow' profile.user.id %}" class="btn btn-danger">Unfollow</a>
+						 {%else%}
+						 <a href="{% url 'user_follow' profile.user.id %}" class="btn btn-success">Follow</a>
+				         {%endif%}
+				        
 					{%endif%}
 			</div>
 		
@@ -89,28 +87,4 @@
 
 {%endblock%}
 
-{% block domready %}
-    $('a.follow').click(function(e){
-        e.preventDefault();
-        $.post('{% url "user_follow" %}',
-            {
-                id: $(this).data('id'),
-                action: $(this).data('action')
-            },
-            function(data){
-                if (data['status'] == 'ok')
-                {
-                    var previous_action = $('a.follow').data('action');
 
-                    // toggle data-action
-                    $('a.follow').data('action', previous_action == 'follow' ? 'unfollow' : 'follow');
-                    // toggle link text
-                    $('a.follow').text(previous_action == 'follow' ? 'Unfollow' : 'Follow');
-
-                    // update total followers
-                    var previous_followers = parseInt($('span.count .total').text());
-                    $('span.count .total').text(previous_action == 'follow' ? previous_followers + 1 : previous_followers - 1);
-                }
-        });
-    });
-{% endblock %}
