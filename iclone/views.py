@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect,JsonResponse
 from .forms import NewImagePost,CreateComment,UpdateProfile
-from .models import Image,Comment,Profile,User
+from .models import Image,Comment,Profile,User,Follow
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
@@ -15,13 +15,21 @@ def index(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request,prof_id):
-	current_user = request.user
+	user=User.objects.get(pk=prof_id)
 	images = Image.objects.filter(profile = prof_id)
 	title = User.objects.get(pk = prof_id).username
 	profile = Profile.objects.filter(user = prof_id)
-	followUser = User.objects.get(pk = prof_id)
 
-	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title})
+	if Follow.objects.filter(user_from=request.user,user_to = user).exists():
+		is_follow = True
+	else:
+		is_follow = False
+
+	followers = Follow.objects.filter(user_to = user).count()
+	following = Follow.objects.filter(user_from = user).count()
+	
+
+	return render(request,'accounts/profile.html',{"images":images,"profile":profile,"title":title,"is_follow":is_follow,"followers":followers,"following":following})
 	
 
 @login_required(login_url='/accounts/login/')
@@ -111,17 +119,17 @@ def likePost(request,image_id):
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def follow(request,user_id):
+def follow(request,user_to):
 
-   follows=Profile.objects.get(id=request.user.id)
-   user1=User.objects.get(id=user_id)
-   #user=Profile.objects.get(id=user_id)
+   
+   user=User.objects.get(id=user_to)
+   
    is_follow=False
-   if follows.follow.filter(id=user_id).exists():
-       follows.follow.remove(user1)
+   if Follow.objects.filter(user_from=request.user,user_to = user).exists():
+       Follow.objects.filter(user_from=request.user,user_to = user).delete()
        is_follow=False
    else:
-       follows.follow.add(user1)
+       Follow(user_from=request.user,user_to = user).save()
        is_follow=True
   
 

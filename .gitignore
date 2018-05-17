@@ -1,3 +1,4 @@
 virtual/
-media/
+media/images
+media/profile
 .env

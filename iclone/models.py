@@ -7,7 +7,7 @@ class Profile(models.Model):
 	bio = models.CharField(max_length = 300,blank = True,default = 'Awesome Bio Will Appear Here')
 	profile_pic = models.ImageField(upload_to = 'profile/', blank = True,default = '../static/images/default.png')
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
-	follow = models.ManyToManyField(User,related_name = 'who_following',blank=True)
+	
 
 	def __str__(self):
 		return self.user
@@ -58,4 +58,17 @@ class Comment(models.Model):
 def get_first_name(self):
     return self.first_name
 
-User.add_to_class("__str__", get_first_name)
+class Follow(models.Model):
+    user_from = models.ForeignKey(User,related_name='rel_from_set')
+    user_to = models.ForeignKey(User, related_name='rel_to_set')
+  
+    def __str__(self):
+        return '{} follows {}'.format(self.user_from, self.user_to)
+
+
+# Add following field to User dynamically
+User.add_to_class('following',
+                  models.ManyToManyField('self',
+                                         through=Follow,
+                                         related_name='followers',
+                                         symmetrical=False))
