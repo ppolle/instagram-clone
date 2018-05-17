@@ -14,7 +14,7 @@
 							<a href="{% url 'profile' image.profile.id %}"><img class="img-responsive img-circle" src="{{image.user_profile.profile_pic.url}}" alt="" style="width:35px; height:35px"></a>
 						</div>
 						<div class="col-md-10" style="padding-top:11px">
-							{{image.profile}}
+							{{image.profile.username}}
 						</div>
 					</div>
 
@@ -45,7 +45,7 @@
 			      		</a>
 			      		<span style="font-size:25px;">{{image.comment | length}}</span>
 			      		<p></p>
-			      		<p><strong>{{image.profile}}</strong>: {{image.image_caption}}</p>
+			      		<p><strong>{{image.profile.username}}</strong>: {{image.image_caption}}</p>
 			      		
 		   		
 				   </div>
