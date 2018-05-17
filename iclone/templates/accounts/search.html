@@ -15,7 +15,7 @@
 						<a href="{% url 'profile' profile.id %}"><img class="img-responsive img-circle" src="{{profile.profile_pic.url}}" alt="" style="width:50px; height:50px"></a>
 					</div>
 					<div class="col-md-10" style="padding-top:11px">
-						<a href="{% url 'profile' profile.id %}">{{profile.user}}</a>
+						<a href="{% url 'profile' profile.id %}">{{profile.user.username}}</a>
 					</div>
 				</div>
 			</div>

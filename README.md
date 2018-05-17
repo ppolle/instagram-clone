@@ -28,7 +28,7 @@ Run ``python3.6 manage.py runserver`` from the application's root and view live 
 ## Link
 https://iclone.herokuapp.com/
 
-##Known Bugs
+## Known Bugs
 * The following system currently doesnt work as it should
 
 ## License 
