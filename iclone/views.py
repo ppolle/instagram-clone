@@ -76,6 +76,7 @@ def single(request,image_id):
 	
 	image = Image.get_image_by_id(image_id)
 	title = image.image_name
+	
 	if request.method == 'POST':
 		form = CreateComment(request.POST)
 		if form.is_valid():
@@ -83,7 +84,7 @@ def single(request,image_id):
 			comment.image = image
 			comment.profile = request.user
 			comment.save()
-			HttpResponseRedirect('single')
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	else:
 		form = CreateComment()
 
@@ -134,3 +135,10 @@ def follow(request,user_to):
   
 
    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def comment(request):
+	comment = request.POST.get('comment')
+	comment_made = Comment(comment = comment)
+	comment_made.save()
+	data = {'success':'You have been succesfully commented on this post'}
+	return JsonResponse(data)
