@@ -14,13 +14,13 @@ class Profile(models.Model):
 
 class Image(models.Model):
 	
-	image_name = models.CharField(max_length = 60)
-	image_caption = models.CharField(max_length = 60)
+	image_name = models.CharField(max_length = 60, blank = True)
+	image_caption = models.CharField(max_length = 60, blank = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	profile = models.ForeignKey(User)
 	user_profile = models.ForeignKey(Profile)
 	likes = models.ManyToManyField(User,related_name = 'likes', blank = True)
-	image = models.ImageField(upload_to = 'images/')
+	image = models.ImageField(upload_to = 'images/', blank = True)
 
 	@classmethod
 	def save_image(self):

@@ -13,6 +13,7 @@ urlpatterns=[
     url(r'^accounts/single/(\d+)',views.single,name = 'single'),
     url(r'^like/(\d+)',views.likePost,name= 'likePost'),
 	url(r'^follow/(\d+)',views.follow,name="user_follow"),
+	url(r'^editPost/(\d+)',views.editPost,name="editPost"),
 
 ]
 if settings.DEBUG:

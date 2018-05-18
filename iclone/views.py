@@ -69,7 +69,7 @@ def updateProfile(request):
 	else:
 		form = UpdateProfile()
 
-	return render(request,'accounts/update_profile.html',{"form":form})
+	return render(request,'accounts/update_profile.html',{"form":form,"title":title})
 
 @login_required(login_url='/accounts/login/')
 def single(request,image_id):
@@ -142,3 +142,23 @@ def comment(request):
 	comment_made.save()
 	data = {'success':'You have been succesfully commented on this post'}
 	return JsonResponse(data)
+
+def editPost(request,image_id):
+	current_user = request.user
+	profile = Profile.objects.get(user = request.user.id)
+	image = Image.objects.get(pk = image_id)
+	title = "Update Image Post"
+	if request.method == 'POST':
+		if image:
+			form = NewImagePost(request.POST,request.FILES,instance = image)
+			if form.is_valid():
+				imageUpdate = form.save(commit = False)
+				imageUpdate.profile = current_user
+				imageUpdate.user_profile = profile
+				imageUpdate.save()
+				return redirect('profile',current_user.id)
+	else:
+		form = NewImagePost()
+
+	return render(request,'accounts/edit_post.html',{"form":form,"title":title,"image":image})
+	

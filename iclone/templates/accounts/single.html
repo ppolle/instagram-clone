@@ -17,7 +17,11 @@
 				      		 {%else%}
 				      		 <i class="far fa-comment" style="font-size:25px;padding-left: 10px"></i>
 				      		 {%endif%}
-			      		</a><span style="font-size:25px;">{{image.likes.count}}</span>
+			      		</a>
+			      		<span style="font-size:25px;">{{image.likes.count}}</span>
+			      		{% if image.profile.id == user.id %}
+			      		<a href="{% url 'editPost' image.id %}" class="btn btn-success btn-sm pull-right">Edit</a>
+			      		{%endif%}
 					</div>
 				
 				

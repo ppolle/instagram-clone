@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+{% load bootstrap3 %}
+{% block content%}
+<h1 class="text-center">Edit Post : {{image.image_name}}</h1>
+<div class="container">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<form  action="{% url 'editPost' image.id %}" method="post" enctype="multipart/form-data">
+		        {%csrf_token%}
+
+		        {% bootstrap_form form%}
+		        
+		        	<input type="submit" class="btn btn-success btn-default btn-block" value="Update Post">
+		       
+		        
+	        </form>
+		</div>
+		<div class="col-md-2"></div>
+	
+
+	</div>
+</div>
+
+
+{%endblock%}
