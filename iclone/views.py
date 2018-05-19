@@ -8,13 +8,28 @@ from django.views.decorators.http import require_POST
 
 # Create your views here.
 def index(request):
+	'''
+	Method that fetches all images from all users.
+	'''
 	images = Image.objects.all()
+	title = "Discover"
 	
-	return render(request,'index.html',{"images":images})
+	return render(request,'index.html',{"images":images,"title":title})
+def timeline(request):
+	'''
+	Method that fetches imges from all the users that the current logged in user follows only
+	'''
+	follows = Follow.objects.filter(user_from = request.user.id)
+	images = Image.objects.filter(profile = follows.user_to.id)
+	title = request.user
+	return render(request, 'accounts/timeline.html',{"images":images,"title":title})
 
 
 @login_required(login_url='/accounts/login/')
 def profile(request,prof_id):
+	'''
+	Method that fetches a users profile page
+	'''
 	user=User.objects.get(pk=prof_id)
 	images = Image.objects.filter(profile = prof_id)
 	title = User.objects.get(pk = prof_id).username
@@ -34,6 +49,9 @@ def profile(request,prof_id):
 
 @login_required(login_url='/accounts/login/')
 def create(request):
+	'''
+	Method that created an image post
+	'''
 	current_user = request.user
 	profile = Profile.objects.get(user = request.user.id)
 	title = "Create New Post"
@@ -53,11 +71,14 @@ def create(request):
 
 @login_required(login_url='/accounts/login/')
 def updateProfile(request):
+	'''
+	Method that updates a user's profile.
+	'''
 	current_user = request.user
 	
 	title = "Update Profile"
 	if request.method == 'POST':
-		if Profile.objects.filter(user_id = current_user):
+		if Profile.objects.filter(user_id = current_user).exists():
 			form = UpdateProfile(request.POST,request.FILES,instance = Profile.objects.get(user_id = current_user))
 		else:
 			form = UpdateProfile(request.POST,request.FILES)
@@ -67,12 +88,18 @@ def updateProfile(request):
 			userProfile.save()
 			return redirect('profile',current_user.id)
 	else:
-		form = UpdateProfile()
+		if Profile.objects.filter(user_id = current_user).exists():
+			form = UpdateProfile(instance = Profile.objects.get(user_id = current_user))
+		else:
+			form = UpdateProfile()
 
 	return render(request,'accounts/update_profile.html',{"form":form,"title":title})
 
 @login_required(login_url='/accounts/login/')
 def single(request,image_id):
+	'''
+	Method that fetches a single post view.
+	'''
 	
 	image = Image.get_image_by_id(image_id)
 	title = image.image_name
@@ -96,6 +123,9 @@ def single(request,image_id):
 
 @login_required(login_url='/accounts/login/')
 def search(request):
+	'''
+	Method that searches for users based on their profiles
+	'''
 	if request.GET['search']:
 		search_term = request.GET.get("search")
 		profiles = Profile.objects.filter(user__username__icontains = search_term)
@@ -108,6 +138,9 @@ def search(request):
 
 @login_required(login_url='/accounts/login/')
 def likePost(request,image_id):
+	'''
+	Method that likes a post.
+	'''
 	image = Image.objects.get(pk = image_id)
 	
 	is_liked = False
@@ -122,7 +155,9 @@ def likePost(request,image_id):
 
 def follow(request,user_to):
 
-   
+   '''
+	Method that enables a user to follow another user.
+	'''
    user=User.objects.get(id=user_to)
    
    is_follow=False
@@ -137,6 +172,9 @@ def follow(request,user_to):
    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def comment(request):
+	'''
+	Method that enables a logged in user to comment on an image.
+	'''
 	comment = request.POST.get('comment')
 	comment_made = Comment(comment = comment)
 	comment_made.save()
@@ -144,6 +182,9 @@ def comment(request):
 	return JsonResponse(data)
 
 def editPost(request,image_id):
+	'''
+	Method that enables a logged in user to edit posts they created.
+	'''
 	current_user = request.user
 	profile = Profile.objects.get(user = request.user.id)
 	image = Image.objects.get(pk = image_id)
@@ -158,7 +199,7 @@ def editPost(request,image_id):
 				imageUpdate.save()
 				return redirect('profile',current_user.id)
 	else:
-		form = NewImagePost()
+		form = NewImagePost(instance = image)
 
 	return render(request,'accounts/edit_post.html',{"form":form,"title":title,"image":image})
 	
