@@ -20,8 +20,7 @@ def timeline(request):
 	Method that fetches imges from all the users that the current logged in user follows only
 	'''
 	follows = Follow.objects.filter(user_from = request.user.id)
-	images = Image.objects.filter(profile = follows.user_to.id)
-	title = request.user
+	images = Image.objects.filter(profile = request.user.following.user_to)
 	return render(request, 'accounts/timeline.html',{"images":images,"title":title})
 
 

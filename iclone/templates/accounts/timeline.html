@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+{% block content%}
+<h1 class="text-center">welcome to iClone</h1>
+<div class="container">
+	<div class="row">
+		{% if user.is_authenticated %}
+			{%if images%}
+				{% for image in images%}
+				<div class="col-md-4">
+				<div class="panel panel-default">
+					 <div class="panel-heading" style="background-color: white">
+					 	<div class="row">
+						<div class="col-md-2">
+							<a href="{% url 'profile' image.profile.id %}"><img class="img-responsive img-circle" src="{{image.user_profile.profile_pic.url}}" alt="" style="width:35px; height:35px"></a>
+						</div>
+						<div class="col-md-10" style="padding-top:11px">
+							{{image.profile.username}}
+						</div>
+					</div>
+
+					 </div>
+				  <div class="panel-title">
+				       <div class="hovereffect" style="height: 245px">
+				     	<a href="{% url 'single' image.id %}">
+				        	<img class="img-responsive" src="{{image.image.url}}" alt="">
+				      	</a>
+				      					      
+				   </div>
+				  
+				  </div>
+				   <div class="panel-body" style="padding-top: 20px">
+				   	<p style="padding-top:30px"></p>
+					   	<a class='info' href="{% url 'likePost' image.id %}">
+			      		 	<i class="far fa-heart" style="font-size:25px;" class="success"></i>
+
+			      		</a><span style="font-size:25px;">{{image.likes.count}}</span>
+
+			      		 <a class='info' href="{% url 'single' image.id %}">
+			      		 	 {%if is_liked%}
+				      		 <i class="fas fa-comment" style="font-size:25px;padding-left: 10px"></i>
+				      		 {%else%}
+				      		 <i class="far fa-comment" style="font-size:25px;padding-left: 10px"></i>
+				      		 {%endif%}
+
+			      		</a>
+			      		<span style="font-size:25px;">{{image.comment | length}}</span>
+			      		<p></p>
+			      		<p><strong>{{image.profile.username}}</strong>: {{image.image_caption}}</p>
+			      		
+		   		
+				   </div>
+				  
+				</div>				
+							
+				  
+
+				</div>
+				{%endfor%}
+			{%else%}
+			<h3 class="text-center">Your timeline is empty because you havent followed any user. Discover new users <a href="{% url 'index' %}">here</a></h3>
+			{%endif%}
+		{%else%}
+		 <h3 class="text-center">Log in to view this content</h3>	
+		{%endif%}
+	</div>
+</div>
+
+{%endblock%}

@@ -31,7 +31,12 @@
 				   <div class="panel-body" style="padding-top: 20px">
 				   	<p style="padding-top:30px"></p>
 					   	<a class='info' href="{% url 'likePost' image.id %}">
+					   		{%if image.likes.id == user.id%}
+			      		 	<i class="fas fa-heart" style="font-size:25px;" class="success"></i>
+			      		 	{%else%}
 			      		 	<i class="far fa-heart" style="font-size:25px;" class="success"></i>
+			      		 	{%endif%}
+					   		
 
 			      		</a><span style="font-size:25px;">{{image.likes.count}}</span>
 
